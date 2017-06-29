@@ -1,20 +1,18 @@
-
 const Promise = require('bluebird');
 const difference = require('underscore').difference;
 const options = {
     promiseLib: Promise
 };
 const pgp = require('pg-promise')(options);
-
 const cn = {
     host: 'localhost',
     port: 5432,
     database: 'mydb',
-    user: 'kenlyhui',
-    password: ''
+    user: 'postgres',
+    password: 'postgres'
 };
 const db = pgp(cn);
-
+exports.db = db;
 exports.query = function(queryStr, callback){
 
   db.any(queryStr, [true])
@@ -30,9 +28,7 @@ exports.query = function(queryStr, callback){
 
 };
 
-
 let getImage = (id, part, callback) => {
-
   db.any(`select _path from ${part} where id = ${id}`)
     .then(path => {
       // console.log(path);
@@ -45,8 +41,8 @@ let getImage = (id, part, callback) => {
   });
 
 }
-exports.getRandomImage = (part,callback) => {
 
+exports.getRandomImage = (part,callback) => {
   db.any(`select id from ${part} order by id desc limit 1`)
     .then(maxId => {
       var id = maxId[0].id;
@@ -60,18 +56,14 @@ exports.getRandomImage = (part,callback) => {
     .catch(error => {
       console.log(error);
   });
-
 };
 
-
 exports.getTwoImages = function(part, callback) {
-
   let arr1 = ['head', 'torso', 'legs'];
   let diff = difference(arr1, [part]);
   let partObj = {};
 
   console.log(getRandomImage('head'));
-
   // iterate diff 
   diff.forEach((each) => {
     let obj = {};
@@ -86,9 +78,32 @@ exports.getTwoImages = function(part, callback) {
   .catch((err) => {
     callback(err);
   });
-  
 
 };
+
+// var mongoose = require('mongoose');
+// mongoose.connect('mongodb://localhost/exquisite');
+
+// var db = mongoose.connection;
+
+// db.on('error', function() {
+//   console.log('mongoose connection error');
+// });
+
+// db.once('open', function() {
+//   console.log('mongoose connected successfully');
+// });
+
+// var userSchema = mongoose.Schema({  
+//   facebook: {
+//     id: String,
+//     token: String,
+//     email: String,
+//     name: String,
+//     username: String,
+//   }
+// });
+// module.exports = mongoose.model('User', userSchema);
 // {obj{head: abc_path}, obj{torso: def_path}}
 
 
