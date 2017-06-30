@@ -1,11 +1,17 @@
 import React from 'react';
 
-
 class DrawCanvas extends React.Component {
   constructor(props) {
     super(props);
-    this.width = 900;
-    this.height = 450;
+    this.state = {
+      brushWidth: 5,
+      width: 900,
+      height: 450,
+      erasing: false,
+      eColor: 'transparent',
+      dColor: 'transparent',
+      bodyPart: "head"
+    }
     this.drawingPoints = [];
     this.isDrawing = false;
     this.scrollLeft = 0;
@@ -13,16 +19,32 @@ class DrawCanvas extends React.Component {
   }
 
   onEraserClick() {
-    this.context.globalCompositeOperation = 'destination-out';
+    this.setState({
+      erasing: true,
+      eColor: '#33adff',
+      dColor: 'transparent'
+    })
   }
 
   onDrawClick() {
-    this.context.globalCompositeOperation = 'source-over';
+    this.setState({
+      erasing: false,
+      eColor: 'transparent',
+      dColor: '#33adff'
+    })
+  }
+
+  updateBrushWidth(event) {
+    this.setState({
+      brushWidth: event.target.value
+    })
   }
 
   startDraw(event) {
+    var left = event.clientX - this.offsetLeft + this.scrollLeft;
+    var top = event.clientY - this.offsetTop + this.scrollTop;
     this.isDrawing = true;
-    this.addToDrawingEvents(event.clientX - this.offsetLeft + this.scrollLeft, event.clientY - this.offsetTop + this.scrollTop, true);
+    this.addToDrawingEvents(left, top, true);
     this.redraw();
   }
 
@@ -35,8 +57,10 @@ class DrawCanvas extends React.Component {
   }
 
   drawing(event) {
+    var left = event.clientX - this.offsetLeft + this.scrollLeft;
+    var top = event.clientY - this.offsetTop + this.scrollTop;
     if (this.isDrawing) {
-      this.addToDrawingEvents(event.clientX - this.offsetLeft + this.scrollLeft, event.clientY - this.offsetTop + this.scrollTop, true);
+      this.addToDrawingEvents(left, top, true);
       this.redraw();
     }
   }
@@ -48,9 +72,10 @@ class DrawCanvas extends React.Component {
   redraw() {
     for (var i = 0; i < this.drawingPoints.length; i++) {
       this.context.beginPath();
+      this.state.erasing ? this.context.globalCompositeOperation = 'destination-out' : this.context.globalCompositeOperation = 'source-over';
       this.context.strokeStyle = "#000000";
       this.context.lineJoin = 'round';
-      this.context.lineWidth = 7;
+      this.context.lineWidth = this.state.brushWidth;
 
       if (this.drawingPoints[i].drag && i) {
         this.context.moveTo(this.drawingPoints[i - 1].x, this.drawingPoints[i - 1].y);
@@ -64,13 +89,29 @@ class DrawCanvas extends React.Component {
   }
 
   clearCanvas(event) {
-    this.context.clearRect(0, 0, this.width, this.height);
+    this.context.clearRect(0, 0, this.state.width, this.state.height);
     this.drawingPoints = [];
     this.context.save();
+    this.setState({
+      eColor: 'transparent',
+      dColor: 'transparent'
+    })
+  }
+
+  submitImage(event) {
+    var userImage = {};
+    userImage[this.state.bodyPart] = {path: this.canvas.toDataURL("image/png")}
+    this.props.generateImage(userImage);
+  }
+
+  changePart(event) {
+    this.setState({bodyPart: event.target.value});
   }
 
   componentDidMount() {
+    //selects the DOM elements and exposes the HTML 5 canvas context obj
     this.canvas = document.getElementById('canvas');
+    this.mouse = document.getElementById('mouseCursor');
     this.context = this.canvas.getContext('2d');
     this.offsetLeft = this.canvas.offsetLeft;
     this.offsetTop = this.canvas.offsetTop;
@@ -85,16 +126,32 @@ class DrawCanvas extends React.Component {
   }
 
   render () {
+    //sets cursor styling
+    var style = {}
+    this.state.erasing ? style.cursor = 'url(eraser.cur) 15 15, auto' : style.cursor = 'url(brush.cur), auto'
     return (
       <div className ="draw-canvas">
-        <canvas onMouseLeave={this.endDraw.bind(this)}
+        <canvas
+          style={style}
           onMouseMove={this.drawing.bind(this)} onMouseDown={this.startDraw.bind(this)}
-          onMouseUp={this.endDraw.bind(this)} id='canvas' width={this.width} height={this.height}>
+          onMouseUp={this.endDraw.bind(this)} id='canvas' width={this.state.width} height={this.state.height}>
         </canvas>
-        <div>
-        <input onClick={this.onEraserClick.bind(this)} type="button" value="Eraser"></input>
-        <input onClick={this.onDrawClick.bind(this)} type="button" value="Draw"></input>
-        <input onClick={this.clearCanvas.bind(this)} type='button' value="Clear Canvas"></input>
+        <div className="button-cluster">
+          <img style={{'backgroundColor': this.state.eColor}} onClick={this.onEraserClick.bind(this)} className="eraser" src="erasericon.png"></img>
+          <img style={{'backgroundColor': this.state.dColor}} onClick={this.onDrawClick.bind(this)} className="drawBrush" src="brushicon.png"></img>
+          <input className="clearBtn" onClick={this.clearCanvas.bind(this)} type='button' value="Clear"></input>
+          <span>Brush size: {this.state.brushWidth}</span>
+          <input onChange={this.updateBrushWidth.bind(this)} 
+          value={this.state.brushWidth} 
+          type="range" min="5" max="25" step="1"></input>
+        </div>
+        <div className="button-cluster">
+          <select onChange={this.changePart.bind(this)}>
+            <option value="head">head</option>
+            <option value="torso">torso</option>
+            <option value="legs">legs</option>
+          </select>
+          <input onClick={this.submitImage.bind(this)} type="button" value="Done"></input>
         </div>
       </div>
       )

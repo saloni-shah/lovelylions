@@ -59,7 +59,7 @@ canvas {
   background-size: cover;
 }
 
-.draw-canvas div {
+.button-cluster {
   display: table;
   margin: 5px auto;
 }
@@ -72,9 +72,67 @@ canvas {
 
 }
 
+@-webkit-keyframes highlight {
+  0% {
+    background: #e6f7ff;
+  }
+  100% {
+    background: none;
+  }
+}
+.drawBrush {
+  border: solid black 1px;
+  height: 27px;
+  width: 27px;
+  margin-bottom: 2px;
+  cursor: pointer;
+}
+
+.drawBrush:hover {
+  background-image: linear-gradient(to bottom, #c3e3fa, #a5defb)
+}
+
+.drawBrush:active {
+  animation-name: highlight;
+  animation-duration: 1s;
+  transition: ;
+}
+
+.eraser {
+  border: solid black 1px;
+  height: 27px;
+  width: 27px;
+  margin-bottom: 2px;
+  cursor: pointer;
+}
+
+.eraser:hover {
+  background-image: linear-gradient(to bottom, #c3e3fa, #a5defb)
+}
+
+.eraser:active {
+  animation-name: highlight;
+  animation-duration: 1s;
+  transition: ;
+}
+
+.brushWidth {
+  display: block;
+  height: 27px;
+  width: auto;
+  border: solid black 1px;
+}
+
+.clearBtn {
+  border: solid black 1px;
+}
+
 .gallery-pic {
-  display: inline-block;
+  text-align: justify;
   padding: 20px;
+}
+.brushSpan {
+  padding-left: 2px
 }
 
 .pic-part {
