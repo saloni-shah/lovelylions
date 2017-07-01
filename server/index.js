@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 
 var fs = require('fs');
 var crypto = require('crypto');
-
+const querystring = require('querystring');
 
 var app = express();
 app.use(express.static(__dirname + '/../client/dist'));
@@ -66,7 +66,7 @@ var generateFilename = (fileData) => {
 
 app.get('/gallery', (req, res) => {
   var username = req.query.username;
-
+  console.log(username);
   var DUMMY_GALLERY_DATA = [
       {title: 'Title', head: {path:'paper.png', artist: 'artist1'}, torso: {path: 'paper.png', artist: 'artist2'}, legs: {path: 'paper.png', artist: 'artist3'}},
       {title: 'Title', head: {path:'paper.png', artist: 'artist1'}, torso: {path: 'paper.png', artist: 'artist2'}, legs: {path: 'paper.png', artist: 'artist3'}},

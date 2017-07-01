@@ -1,5 +1,3 @@
-
-
 CREATE TABLE artist(
    id   SERIAL PRIMARY KEY,
    username    VARCHAR(255) NOT NULL,
@@ -45,4 +43,3 @@ insert into legs (_path, user_id )  values ( 'ghi_path', 1 );
 insert into legs (_path, user_id )  values ( 'jkl_path', 1 );
 insert into head (_path, user_id )  values ( 'eft_path', 1 );
 insert into head (_path, user_id )  values ( 'abk_path', 1 );
--- original database pictures will be using USER ID (1) in artist schema

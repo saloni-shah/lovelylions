@@ -14,7 +14,7 @@ const cn = {
 const db = pgp(cn);
 
 
-exports.db = db;
+//exports.db = db;
 
 
 let query = function(queryStr, callback){
@@ -139,7 +139,8 @@ module.exports = {
   getRandomImage: getRandomImage,
   getTwoImages: getTwoImages,
   savePartImage: savePartImage,
-  getAllFinalImagesOfArtist: getAllFinalImagesOfArtist
+  getAllFinalImagesOfArtist: getAllFinalImagesOfArtist,
+  db: db
 };
 
 

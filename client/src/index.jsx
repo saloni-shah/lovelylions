@@ -4,7 +4,7 @@ import DrawCanvas from './components/DrawCanvas.jsx';
 import SignIn from './components/SignIn.jsx';
 import Gallery from './components/Gallery.jsx';
 import ReactDOM from 'react-dom';
-import Composite from './components/Composite.jsx';
+import Composite from './components/composite.jsx';
 
 var testURL = '/images/?file=legs.png'
 
@@ -12,8 +12,16 @@ var testURL = '/images/?file=legs.png'
 class App extends React.Component {
   constructor(props) {
     super(props);
+    //setting username
+    var param_array = window.location.href.split('username=');
+    var name;
+    if(param_array[1]) {
+      name = param_array[1].replace('#_=_','');
+      name = name.replace(/%20/g, " ");
+    }
+    //
     this.state = {
-      login: null,
+      login: name ? name : null,
       currentView: <DrawCanvas generateImage={this.generateImage.bind(this)}/>,
       pics: []
     };
