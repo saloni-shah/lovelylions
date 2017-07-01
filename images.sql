@@ -1,3 +1,5 @@
+
+
 CREATE TABLE artist(
    id   SERIAL PRIMARY KEY,
    username    VARCHAR(255) NOT NULL,
@@ -37,9 +39,12 @@ CREATE TABLE final_image (
 -- insert into artist (username, email)  values ( 'lisa', 'lisa@ymail.com' );
 -- insert into artist (username, email)  values ( 'jenny', 'jenny@ymail.com' );
 -- insert into artist (username, email)  values ( 'cathy', 'cathy@ymail.com' );
+insert into artist (username, email, facebookId, token, name) values ('dummy', 'dummyemail@test.com', 'dummyuser', 'NA', 'dummyperson');
 insert into torso (_path, user_id )  values ( 'abc_path', 1 );
 insert into torso (_path, user_id )  values ( 'def_path', 1 );
 insert into legs (_path, user_id )  values ( 'ghi_path', 1 );
 insert into legs (_path, user_id )  values ( 'jkl_path', 1 );
 insert into head (_path, user_id )  values ( 'eft_path', 1 );
+
 insert into head (_path, user_id )  values ( 'abk_path', 1 );
+-- original database pictures will be using USER ID (1) in artist schema

@@ -18,8 +18,6 @@ class Composite extends React.Component {
         legs.src = picObj.legs.path;
         legs.onload = () => {
           context.drawImage(legs, 0, 300, 300, 150);
-          // var img = c.toDataURL("image/png");
-          // document.write('<img src="' + img + '" width="328" height="526"/>');
         };
       };
     };
@@ -40,7 +38,7 @@ class Composite extends React.Component {
         </canvas>
         <div className="button-cluster">
           <button onClick={this.regenerate.bind(this)}>regenerate</button>
-          <button onClick={this.saveImage.bind(this)}>save</button>
+          {this.props.login ? <button onClick={this.saveImage.bind(this)}>save</button> : ''}
         </div>
       </div>
     );

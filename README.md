@@ -4,10 +4,10 @@
 
 ## Team
 
-  - teamMember
-  - teamMember
-  - teamMember
-  - teamMember
+  - Saloni Shah
+  - Derek Johnson
+  - Kenly Hui
+  - Vincent La
 
 ## Table of Contents
 
@@ -38,14 +38,12 @@
 From within the root directory:
 
 ```sh
-npm install -g bower
 npm install
-bower install
 ```
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_DOC)
+View the project roadmap [https://docs.google.com/spreadsheets/d/1z5V8oftC4xVghbUKK3pPErsFLmAysP1yReC85kbvIaw/edit?usp=sharing](LINK_TO_DOC)
 
 
 ## Contributing
