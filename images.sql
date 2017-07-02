@@ -1,5 +1,6 @@
 
 
+
 CREATE TABLE artist(
    id   SERIAL PRIMARY KEY,
    username    VARCHAR(255) NOT NULL,
@@ -35,7 +36,7 @@ CREATE TABLE final_image (
     user_id     INTEGER references artist(id)
 );
 
--- insert into artist (username, email)  values ( 'regina', 'regina@ymail.com' );
+insert into artist (username, email, facebookId, token, name)  values ( 'regina', 'regina@ymail.com', 'reginaFB', 'token1234', 'regina' );
 -- insert into artist (username, email)  values ( 'lisa', 'lisa@ymail.com' );
 -- insert into artist (username, email)  values ( 'jenny', 'jenny@ymail.com' );
 -- insert into artist (username, email)  values ( 'cathy', 'cathy@ymail.com' );
