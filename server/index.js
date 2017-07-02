@@ -27,7 +27,7 @@ require('../config/passport.js')(passport);
 
 app.use(logger('dev'));
 app.use(cookieParser());
-app.use(session({ secret: 'keyboard cat' }));
+app.use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));

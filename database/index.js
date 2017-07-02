@@ -8,8 +8,8 @@ const cn = {
     host: 'localhost',
     port: 5432,
     database: 'mydb',
-    user: 'vincentla',
-    password: ''
+    user: 'postgres',
+    password: 'postgres'
 };
 
 if (process.env.DATABASE_URL) {
