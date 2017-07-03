@@ -10,7 +10,8 @@ var app = express();
 var port = process.env.PORT || 3000;
 
 app.use(express.static(__dirname + '/../client/dist'));
-app.use(bodyParser.json({limit: '5mb'}));
+app.use(bodyParser.json());
+
 
 //saloni code for authentication start
 var path = require('path');
