@@ -100,10 +100,7 @@ let savePartImage = (userId, part, path, callback) => {
   })
 };
 
-
 let saveImageToFinalImage = (obj, part, path, callback) => {
-  //obj = request.body, part = req.query.part , path is generate before
-  // the invocation of this function.
   let username = obj[part]['artist'];
   let userId;
   getUserId(username, (data) => {
@@ -125,13 +122,13 @@ let saveImageToFinalImage = (obj, part, path, callback) => {
 };
 
 let getAllFinalImagesOfArtist = (id, callback) => {
-  // this function takes an USERID which query the database for all images relate to the specific artist from final_image table
   var queryStr = `select fi.id , h._path head_path, a1.name head_artist, t._path torso_path, a2.name torso_artist, l._path \
     legs_path, a3.name legs_artist from final_image fi left join head h on (h.id = fi.head_id) left join torso t \
     on (t.id = fi.torso_id) left join legs l on (l.id = fi.legs_id) \
     left join artist a1 on (a1.id = h.user_id) \
     left join artist a2 on (a2.id = t.user_id) \
-    left join artist a3 on (a3.id = l.user_id) where fi.user_id = ${id}`;
+    left join artist a3 on (a3.id = l.user_id) where fi.user_id = ${id}
+    order by fi.id desc`;
   query(queryStr, (data) => {
     console.log(data);
     data = data.map(finalImage => {

@@ -1,6 +1,5 @@
 
 
-
 CREATE TABLE artist(
    id   SERIAL PRIMARY KEY,
    username    VARCHAR(255) NOT NULL,
@@ -36,12 +35,10 @@ CREATE TABLE final_image (
     user_id     INTEGER references artist(id)
 );
 
--- insert into artist (username, email, facebookId, token, name) values ('dummy', 'dummyemail@test.com', 'dummyuser', 'NA', 'dummyperson');
--- insert into torso (_path, user_id )  values ( 'images?path=torso.png', 1 );
--- insert into legs (_path, user_id )  values ( 'images?path=legs.png', 1 );
--- insert into head (_path, user_id )  values ( 'images?path=head.png', 1 );
+
 
 insert into artist (username, email, facebookId, token, name) values ('dummy', 'dummyemail@test.com', 'dummyuser', 'NA', 'dummyperson');
+insert into final_image (head_id, torso_id, legs_id, user_id) values (1, 2, 1, 1);
 insert into torso (_path, user_id )  values ( 'images?path=71b9ab679e89a4360fe9c0bbae972bedc2330255442a2f174cad63914111d327.png', 1 );
 insert into torso (_path, user_id ) values ( 'images?path=0ebab7ebf82861ec8e0253ac25c3a67382dc94c767ffe9bd99b0af58e36ee775.png', 1 );
 insert into head (_path, user_id ) values ( 'images?path=0fc212ccfb9429f2c833c292a5edf8d6cf5c4e7c5ab945f9f1ad620960b14672.png', 1);
@@ -69,3 +66,4 @@ insert into head (_path, user_id ) values ('images?path=d08f122e05a5c4414c8ad03e
 insert into legs (_path, user_id ) values ('images?path=dc52c924f93054a34ac0ea3d1aa82c2dfb0a996814c7485fffcbafe651290bd2.png', 1);
 insert into head (_path, user_id ) values ('images?path=f6d525f9638acb5e8a1ba51e8fe421edb01014acfcb50c443a28c91b1bd092e4.png', 1);
 insert into head (_path, user_id )  values ( 'images?path=84190090ed8a0bb403da1f7a9359e68361c8ea5784cacff5aacff4b0752bc1d2.png', 1 );
+

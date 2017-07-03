@@ -25,11 +25,9 @@ class Composite extends React.Component {
   }
 
   regenerate() {
-    // currently passing in an object with a path property
     var pathValue = this.props.pic[this.props.userPart];
     var userImage = {}
     userImage[this.props.userPart] = pathValue;
-    // need to pass in an object with a body part property that is an object with a path property
     this.props.generateImage(userImage);
   }
 

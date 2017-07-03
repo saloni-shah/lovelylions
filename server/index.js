@@ -13,14 +13,12 @@ app.use(express.static(__dirname + '/../client/dist'));
 app.use(bodyParser.json());
 
 
-//saloni code for authentication start
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var passport = require('passport');
 var router = express.Router();
-//var LocalStrategy = require('passport-local').Strategy;
 var session = require('express-session');
 require('../config/passport.js')(passport);
 
@@ -38,7 +36,7 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook', {
 }));
 
 
-app.get('/profile', isLoggedIn, function(req, res) {
+app.get('/profile', isLoggedIn, function(req, res) {  
   res.redirect('/?username=' + req.user[0]['name']);
 });
 
@@ -56,7 +54,6 @@ function isLoggedIn(req, res, next) {
 }
 
 
-
 var generateFilename = (fileData) => {
   var hash = crypto.createHash('sha256');
   hash.update(fileData);
@@ -70,14 +67,11 @@ app.get('/gallery', (req, res) => {
       res.end(JSON.stringify(galleryImages));
     });
   });
-
-
 });
 
 app.get('/generate', (req, res) => {
   var userPart = req.query.part;
   db.getTwoImages(userPart, (data) => {
-    console.log('get two images data: ', data)
     res.send(JSON.stringify(data));
   });
 });

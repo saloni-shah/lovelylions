@@ -56,11 +56,8 @@ class App extends React.Component {
       .then(generatedImage => {
         generatedImage[userPart] = userImage[userPart];
         this.setState({
-          currentView: ''
-        })
-        this.setState({
           currentView: <Composite pic={generatedImage} userPart={userPart} generateImage={this.generateImage} saveImage={this.saveComposite} login={this.state.login}/>
-        });
+        })
       });
   }
 

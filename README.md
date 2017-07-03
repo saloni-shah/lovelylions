@@ -1,6 +1,6 @@
 # Exquiste Corpse
 
-> Pithy project description
+> An online version of the parlour game in which a drawing is assembled through a collection of images.  Each artist will have an opportunity to render a unique image and allow them to contribute to other artists creations.
 
 ## Team
 
@@ -26,10 +26,7 @@
 ## Requirements
 
 - Node 6.4.x
-- Redis 2.6.x
 - Postgresql 9.1.x
-- etc
-- etc
 
 ## Development
 
