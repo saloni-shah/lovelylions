@@ -5,8 +5,9 @@ const GalleryPic = ({pic}) => (
     <img className="pic-part" src={pic.head.path} />
     <img className="pic-part" src={pic.torso.path} />
     <img className="pic-part" src={pic.legs.path} />
-    <h4>{pic.title}</h4>
-    <p>{pic.head.artist}, {pic.torso.artist}, {pic.legs.artist}</p>
+    <p>{pic.head.artist}</p>
+    <p>{pic.torso.artist}</p>
+    <p>{pic.legs.artist}</p>
   </div>
 );
 

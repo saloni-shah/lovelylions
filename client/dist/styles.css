@@ -1,6 +1,7 @@
 body {
   margin: 0px;
   font-family: 'Work Sans', sans-serif;
+  background-color: #fffdf9;
 
 }
 
@@ -8,15 +9,22 @@ body {
   margin: 2% 5%;
 }
 
+
+.draw-canvas {
+    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none; /* IE10+ */
+}
+
 .exquisite-writer {
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 0;
-  right: 0;
+  /*bottom: 0;
+  right: 0;*/
   z-index: -3;
   overflow: hidden;
-  background-color: #fffdf9;
   color: #DDDDDD;
   margin: 5px;
   margin-top: -10;
@@ -51,12 +59,19 @@ body {
 }
 
 canvas {
-  display: flex;
+  display: grid;
   margin: 0 auto;
-  box-shadow: 0px 30px 40px rgba(0,0,0,.1);
   border-radius: 9px;
+}
+
+.overlay {
+  display: grid;
+  margin: 0 auto;
+  margin-top: -450px;
   background-image: url("./paper.png");
   background-size: cover;
+  box-shadow: 0px 30px 40px rgba(0,0,0,.1);
+  border-radius: 9px;
 }
 
 .button-cluster {
@@ -64,12 +79,18 @@ canvas {
   margin: 5px auto;
 }
 
-.sign-in {
-
+.user-button:hover .login {
+  visibility: hidden;
 }
 
-.gallery {
+.user-button:hover .logout:before {
+  content: "Logout";
+}
 
+.gallery-pic p {
+  text-align: center;
+  margin-top: 0px;
+  margin: 0;
 }
 
 @-webkit-keyframes highlight {

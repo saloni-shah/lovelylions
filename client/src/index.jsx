@@ -84,7 +84,10 @@ class App extends React.Component {
             {this.state.login ? (
               <span>
                 <a href="#" onClick={this.componentSwitch}>myGallery</a>
-                <a href="/logout">{this.state.login}</a>
+                <a className="user-button" href="/logout">
+                  <span className="login">{this.state.login}</span>
+                  <span className="logout"></span>
+                </a>
               </span>
             ) : (
               <a href="/auth/facebook" >signIn</a>
