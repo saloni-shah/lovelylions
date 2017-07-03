@@ -94,7 +94,7 @@ class DrawCanvas extends React.Component {
     this.context.save();
     this.setState({
       eColor: 'transparent',
-      dColor: 'transparent'
+      dColor: '#33adff'
     })
   }
 
@@ -133,6 +133,7 @@ class DrawCanvas extends React.Component {
       <div className ="draw-canvas">
         <canvas
           style={style}
+          onMouseLeave={this.endDraw.bind(this)}
           onMouseMove={this.drawing.bind(this)} onMouseDown={this.startDraw.bind(this)}
           onMouseUp={this.endDraw.bind(this)} id='canvas' width={this.state.width} height={this.state.height}>
         </canvas>

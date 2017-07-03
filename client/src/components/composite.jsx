@@ -3,6 +3,7 @@ import React from 'react';
 class Composite extends React.Component {
 
   componentDidMount() {
+    console.log('inside composite component: ', this.props.pic);
     var canvas = document.querySelector('canvas');
     var context = canvas.getContext('2d');
     var picObj = this.props.pic;
@@ -24,7 +25,12 @@ class Composite extends React.Component {
   }
 
   regenerate() {
-    this.props.generateImage(this.props.pic[this.props.userPart]);
+    // currently passing in an object with a path property
+    var pathValue = this.props.pic[this.props.userPart];
+    var userImage = {}
+    userImage[this.props.userPart] = pathValue;
+    // need to pass in an object with a body part property that is an object with a path property
+    this.props.generateImage(userImage);
   }
 
   saveImage() {

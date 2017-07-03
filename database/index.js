@@ -10,10 +10,10 @@ const cn = {
     database: 'mydb',
     user: 'postgres',
     password: 'postgres'
-
 };
 
 if (process.env.DATABASE_URL) {
+  console.log('connected to heroku postgres db');
   pgp.pg.defaults.ssl = true;
 };
 const db = pgp(process.env.DATABASE_URL || cn);
@@ -35,7 +35,7 @@ let getImage = (id, part, callback) => {
   //helper function, get image from particular table with specfic id(PRIMARY KEY)
   db.any(`select _path from ${part} where id = ${id}`)
     .then(path => {
-      callback(path[0]._path);
+      callback(path[0]._path, id);
     })
     .catch(err => {
       console.log(err);
@@ -66,50 +66,40 @@ let getTwoImages = (part, callback) => {
   let partA = diff[0], partB = diff[1];
 
   var obj = {};
-  getRandomImage(partA, (data) => {
-    obj[partA] = data;
-    getRandomImage(partB, (data) => {
-      obj[partB] = data;
+  obj[partA] = {};
+  obj[partB] = {};
+  getRandomImage(partA, (data, id) => {
+    obj[partA]['path'] = data;
+    obj[partA]['partId'] = id;
+    getRandomImage(partB, (data, id) => {
+      obj[partB]['path'] = data;
+      obj[partB]['partId'] = id;
       callback(obj)
-
     });
   });
 
 };
 
 let getUserId = (username, callback) => {
-  var queryStr = `select id from artist where username = '${username}'`;
-  query(queryStr, (data) => {
-    callback(data[0].id);
-  });
+  db.one('SELECT ID from artist where username = $1', [username])
+  .then((data) => {
+    callback(data.id)
+  })
+  .catch(error => {
+    console.log('getUserId func error: ', error)
+  })
 }
 
 let savePartImage = (userId, part, path, callback) => {
-  // this function save part image to the database, e.g. save the HEAD image path and USERID to table HEAD
-  var queryStr = `insert into ${part} (_path, user_id) values ('${path}', ${userId})`;
-  query(queryStr, (data) => {
-    callback(data);
-  });
+  db.one(`INSERT INTO ${part} (_path, user_id) values ($1, $2) RETURNING id`, [path, userId])
+  .then((data) => {
+    callback(data.id);
+  })
+  .catch(error => {
+    console.log('savePartImage func error: ', error);
+  })
 };
 
-let dummyData = {
-  title: 'abc',
-  head: {
-    partId: undefined,
-    path: 'hahaha_path',
-    artist: 'regina'
-  },
-  torso: {
-    partId: 2,
-    path: 'def_path',
-    artist: 'regina'
-  },
-  legs: {
-    partId: 2,
-    path: 'jkl_path',
-    artist: 'regina'
-  }
-}
 
 let saveImageToFinalImage = (obj, part, path, callback) => {
   //obj = request.body, part = req.query.part , path is generate before
@@ -119,26 +109,48 @@ let saveImageToFinalImage = (obj, part, path, callback) => {
   getUserId(username, (data) => {
     userId = data;
     savePartImage(userId, part, path, (data) => {
-      console.log('save!');
-      var queryStr = `select id from ${part} where ${part}._path = '${path}'`;
-      query(queryStr, (data) => {
-        obj[part]['partId'] = data[0].id;
-        let headId = obj['head']['partId'];
-        let torsoId = obj['torso']['partId'];
-        let legsId = obj['legs']['partId'];
-        var str = `INSERT INTO final_image (head_id, torso_id, legs_id, user_id) values (${headId}, ${torsoId}, ${legsId}, ${userId})`;
-        query(str, (data) => {
-          callback(data);
-        });
-      });
+      obj[part]['partId'] = data;
+      let headId = obj['head']['partId'];
+      let torsoId = obj['torso']['partId'];
+      let legsId = obj['legs']['partId'];
+      db.one('INSERT INTO final_image (head_id, torso_id, legs_id, user_id) values ($1, $2, $3, $4) RETURNING id', [headId, torsoId, legsId, userId])
+      .then((data) => {
+        callback(data);
+      })
+      .catch(error => {
+        console.log('final_image insert func error: ', error);
+      })
     });
   });
 };
 
 let getAllFinalImagesOfArtist = (id, callback) => {
   // this function takes an USERID which query the database for all images relate to the specific artist from final_image table
-  var queryStr = `select fi.id , h._path head_path, t._path torso_path, l._path legs_path from final_image fi left join head h on (h.id = fi.head_id) left join torso t on (t.id = fi.torso_id) left join legs l on (l.id = fi.legs_id) where fi.user_id = ${id}`;
+  var queryStr = `select fi.id , h._path head_path, a1.name head_artist, t._path torso_path, a2.name torso_artist, l._path \
+    legs_path, a3.name legs_artist from final_image fi left join head h on (h.id = fi.head_id) left join torso t \
+    on (t.id = fi.torso_id) left join legs l on (l.id = fi.legs_id) \
+    left join artist a1 on (a1.id = h.user_id) \
+    left join artist a2 on (a2.id = t.user_id) \
+    left join artist a3 on (a3.id = l.user_id) where fi.user_id = ${id}`;
   query(queryStr, (data) => {
+    console.log(data);
+    data = data.map(finalImage => {
+      return {
+        title: finalImage.id,
+        head: {
+          path: finalImage.head_path,
+          artist: finalImage.head_artist
+        },
+        torso: {
+          path: finalImage.torso_path,
+          artist: finalImage.torso_artist
+        },
+        legs: {
+          path: finalImage.legs_path,
+          artist: finalImage.legs_artist
+        }
+      }
+    });
     callback(data);
   });
 };
@@ -154,5 +166,4 @@ module.exports = {
   db: db,
   getUserId: getUserId,
   saveImageToFinalImage: saveImageToFinalImage,
-  dummyData: dummyData
 };
