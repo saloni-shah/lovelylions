@@ -37,8 +37,8 @@ CREATE TABLE final_image (
 
 
 
-insert into artist (username, email, facebookId, token, name) values ('dummy', 'dummyemail@test.com', 'dummyuser', 'NA', 'dummyperson');
-insert into final_image (head_id, torso_id, legs_id, user_id) values (1, 2, 1, 1);
+insert into artist (username, email, facebookId, token, name) values ('dummyperson', 'dummyemail@test.com', 'dummyuser', 'NA', 'dummyperson');
+insert into final_image (head_id, torso_id, legs_id, user_id) values (1, 1, 1, 0);
 insert into torso (_path, user_id )  values ( 'images?path=71b9ab679e89a4360fe9c0bbae972bedc2330255442a2f174cad63914111d327.png', 1 );
 insert into torso (_path, user_id ) values ( 'images?path=0ebab7ebf82861ec8e0253ac25c3a67382dc94c767ffe9bd99b0af58e36ee775.png', 1 );
 insert into head (_path, user_id ) values ( 'images?path=0fc212ccfb9429f2c833c292a5edf8d6cf5c4e7c5ab945f9f1ad620960b14672.png', 1);

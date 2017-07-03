@@ -73,7 +73,6 @@ class DrawCanvas extends React.Component {
       if (this.drawingPoints.length === 1) {
         this.context.beginPath();
         this.context.strokeStyle = '#000000 ';
-
         this.context.arc(this.drawingPoints[0].x, this.drawingPoints[0].y, Math.floor(this.state.brushWidth / 2), 0, Math.PI * 2);
         this.context.fill();
       } else {

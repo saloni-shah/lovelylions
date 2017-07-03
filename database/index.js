@@ -130,7 +130,6 @@ let getAllFinalImagesOfArtist = (id, callback) => {
     left join artist a3 on (a3.id = l.user_id) where fi.user_id = ${id}
     order by fi.id desc`;
   query(queryStr, (data) => {
-    console.log(data);
     data = data.map(finalImage => {
       return {
         title: finalImage.id,

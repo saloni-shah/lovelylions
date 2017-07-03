@@ -36,7 +36,7 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook', {
 }));
 
 
-app.get('/profile', isLoggedIn, function(req, res) {  
+app.get('/profile', isLoggedIn, function(req, res) {
   res.redirect('/?username=' + req.user[0]['name']);
 });
 

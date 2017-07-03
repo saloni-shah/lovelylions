@@ -3,7 +3,6 @@ import React from 'react';
 class Composite extends React.Component {
 
   componentDidMount() {
-    console.log('inside composite component: ', this.props.pic);
     var canvas = document.querySelector('canvas');
     var context = canvas.getContext('2d');
     var picObj = this.props.pic;

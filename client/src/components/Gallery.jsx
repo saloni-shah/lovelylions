@@ -10,7 +10,8 @@ class Gallery extends React.Component {
   render() {
     return (
       <div className="gallery">
-        {this.props.pics.map((pic, idx) => <GalleryPic key={idx} pic={pic}/>)}
+        <h4>{this.props.galleryOwner + "'s gallery"}</h4>
+        {this.props.pics.map((pic, idx) => <GalleryPic key={idx} pic={pic} fetchGallery={this.props.fetchGallery}/>)}
       </div>
     );
   }
